@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block main %}
+    <h1 class="mb-4">My Subjects</h1>
+    <button class="btn btn-primary mb-3" id="toggleButton" onclick="toggleForm()">
+        Agregar materia
+    </button>
+    <form action="/subjects" method="post" id="subjectForm" style="display: none;">
+        <div class="input-group mb-3">
+            <input
+                type="text"
+                name="name"
+                class="form-control"
+                placeholder="Nombre de la materia"
+                required
+            >
+            <button class="btn btn-success" type="submit">Guardar</button>
+        </div>
+    </form>
+    {% if subjects %}
+        <ul class="list-group">
+            {% for subject in subjects %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ subject.name }}
+                    <form action="{{ url_for('delete_subject', subject_id=subject.id) }}" method="post" style="margin: 0;">
+                        <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No hay materias agregadas aún.</p>
+    {% endif %}
+
+    <script>
+        function toggleForm() {
+            const form = document.getElementById("subjectForm");
+            const button = document.getElementById("toggleButton");
+            form.style.display = form.style.display === "none" ? "block" : "none";
+            button.textContent = form.style.display === "none" ? "Agregar materia" : "Cancelar";
+        }
+    </script>
+
+{% endblock %}

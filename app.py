@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, render_template, session, redirect, u
 from models import Subject, Task, User, db
 from werkzeug.security import check_password_hash, generate_password_hash
 from functools import wraps
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "super-secret-key"
@@ -123,3 +124,56 @@ def delete_subject(subject_id):
     db.session.commit()
 
     return redirect("/")
+
+@app.route("/assignments/<int:subject_id>")
+@login_required
+def assignments(subject_id):
+    user_id = session["user_id"]
+    subject = Subject.query.filter_by(id=subject_id, user_id=user_id).first()
+    if not subject:
+        return "Subject not found", 404
+
+    tasks = Task.query.filter_by(subject_id=subject.id, user_id=user_id).all()
+    return render_template("assignments.html", subject=subject, tasks=tasks)
+
+@app.route("/tasks", methods=["POST"])
+@login_required
+def add_task():
+    user_id = session["user_id"]
+    title = request.form.get("title")
+    description = request.form.get("description")
+    due_date_str  = request.form.get("due_date")
+    subject_id = request.form.get("subject_id")
+
+    if not title or not subject_id:
+        return "Title and Subject required", 400
+    
+    due_date = None
+    if due_date_str:
+        due_date = datetime.strptime(due_date_str, "%Y-%m-%d").date()
+
+    new_task = Task(title=title, description=description, due_date=due_date if due_date else None, subject_id=subject_id, user_id=user_id)
+    db.session.add(new_task)
+    db.session.commit()
+
+    return redirect(f"/assignments/{subject_id}")
+
+
+@app.route("/tasks/<int:task_id>/complete", methods=["POST"])
+@login_required
+def complete_task(task_id):
+    user_id = session["user_id"]
+
+    task = Task.query.filter_by(id=task_id, user_id=user_id).first()
+    if not task:
+        return "Task not found", 404
+
+    # Mark as completed
+    task.completed = True
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return f"Database error: {e}", 500
+
+    return redirect(url_for("assignments", subject_id=task.subject_id))

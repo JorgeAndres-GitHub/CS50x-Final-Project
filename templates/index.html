@@ -7,7 +7,7 @@ Home
 {% block main %}
     <h1 class="mb-4">My Subjects</h1>
     <button class="btn btn-primary mb-3" id="toggleButton" onclick="toggleForm()">
-        Agregar materia
+        Add Subject
     </button>
     <form action="/subjects" method="post" id="subjectForm" style="display: none;">
         <div class="input-group mb-3">
@@ -18,7 +18,7 @@ Home
                 placeholder="Nombre de la materia"
                 required
             >
-            <button class="btn btn-success" type="submit">Guardar</button>
+            <button class="btn btn-success" type="submit">Save</button>
         </div>
     </form>
     {% if subjects %}
@@ -26,6 +26,7 @@ Home
             {% for subject in subjects %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{ subject.name }}
+                    <a href="{{url_for('assignments', subject_id = subject.id)}}" class="btn btn-primary btn-sm">Check Assignments</a>
                     <form action="{{ url_for('delete_subject', subject_id=subject.id) }}" method="post" style="margin: 0;">
                         <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
                     </form>
@@ -41,8 +42,9 @@ Home
             const form = document.getElementById("subjectForm");
             const button = document.getElementById("toggleButton");
             form.style.display = form.style.display === "none" ? "block" : "none";
-            button.textContent = form.style.display === "none" ? "Agregar materia" : "Cancelar";
+            button.textContent = form.style.display === "none" ? "Add Subject" : "Cancel";
         }
+    </script>
     </script>
 
 {% endblock %}

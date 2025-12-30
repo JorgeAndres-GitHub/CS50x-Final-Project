@@ -1,0 +1,6 @@
+Flask
+Flask-SQLAlchemy
+Werkzeug
+
+# Optional: to pin exact versions from your environment, run:
+# pip freeze > requirements.txt

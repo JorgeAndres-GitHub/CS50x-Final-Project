@@ -45,12 +45,12 @@ def login():
         password = request.form.get("password")
 
         if not username or not password:
-            return "Username and password required", 400
+            return render_template("error.html", title="Login Error", message="Username and password required.", back_url=url_for('login')), 400
 
         user = User.query.filter_by(username = username).first()
 
         if not user or not check_password_hash(user.password_hash, password):
-            return "Invalid credentials", 401
+            return render_template("error.html", title="Login Error", message="Invalid username or password.", back_url=url_for('login')), 401
 
         session["user_id"] = user.id
         return redirect("/")
@@ -66,14 +66,14 @@ def register():
         confirmation = request.form.get("confirmation")
 
         if not username or not password:
-            return "Username and password required", 400
+            return render_template("error.html", title="Registration Error", message="Username and password required.", back_url=url_for('register')), 400
 
         if password != confirmation:
-            return "Passwords do not match", 400
+            return render_template("error.html", title="Registration Error", message="Passwords do not match.", back_url=url_for('register')), 400
 
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            return "Username already taken", 409
+            return render_template("error.html", title="Registration Error", message="Username already taken.", back_url=url_for('register')), 409
 
         
         password_hash = generate_password_hash(password)
@@ -93,6 +93,11 @@ def logout():
     session.clear()
 
     return redirect("/")
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
 
 @app.route("/subjects", methods=["POST"])

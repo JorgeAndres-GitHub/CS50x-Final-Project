@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block title %}About{% endblock %}
+
+{% block main %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-9">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-5">
+          <div class="d-flex align-items-center mb-4">
+            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width:80px;height:80px;font-size:28px;">
+              JA
+            </div>
+            <div class="ms-4">
+              <h1 class="h4 mb-0">Student Life Manager</h1>
+              <small class="text-muted">About the creator</small>
+            </div>
+          </div>
+
+          <hr>
+
+          <p class="lead">Hello! I'm <strong>Jorge Andrés Herrera Monsalve</strong>, the creator of <em>Student Life Manager</em>. This small web application was built as my CS50 final project to showcase a clean, extendable Flask app with authentication, data persistence, and a friendly UI.</p>
+
+          <div class="row mt-4">
+            <div class="col-md-6">
+              <ul class="list-unstyled">
+                <li><span class="fw-bold">Project Title:</span> Student Life Manager</li>
+                <li class="mt-2"><span class="fw-bold">Name:</span> Jorge Andrés Herrera Monsalve</li>
+                <li class="mt-2"><span class="fw-bold">Location:</span> Cartagena, Colombia</li>
+                <li class="mt-2"><span class="fw-bold">Date:</span> December 30, 2025</li>
+              </ul>
+            </div>
+
+            <div class="col-md-6">
+              <p class="mb-1"><span class="fw-bold">GitHub:</span> <a href="https://github.com/JorgeAndres-GitHub" target="_blank" class="text-decoration-none">JorgeAndres-GitHub</a></p>
+              <p class="mb-1"><span class="fw-bold">edX:</span> <a href="https://www.edx.org" target="_blank" class="text-decoration-none">Andres_Herrera_JM</a></p>
+
+              <div class="mt-4">
+                <a href="/" class="btn btn-primary me-2">Back to Home</a>
+                <a href="https://github.com/JorgeAndres-GitHub" target="_blank" class="btn btn-outline-secondary">View GitHub</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-4 text-muted">
+            <small>Thanks for visiting — feel free to explore the project and reach out via GitHub.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

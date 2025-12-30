@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block title %}Error{% endblock %}
+
+{% block main %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card border-danger shadow-sm">
+        <div class="card-body p-4">
+          <div class="d-flex align-items-start">
+            <div class="me-3">
+              <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center" style="width:56px;height:56px;font-size:20px;">
+                !
+              </div>
+            </div>
+            <div>
+              <h2 class="h5 text-danger mb-1">{{ title or 'Error' }}</h2>
+              <p class="mb-3 lead">{{ message or 'An unexpected error occurred.' }}</p>
+
+              {% if details %}
+              <div class="mb-3 small text-muted">{{ details }}</div>
+              {% endif %}
+
+              <div>
+                {% if back_url %}
+                <a href="{{ back_url }}" class="btn btn-outline-danger me-2">Go back</a>
+                {% endif %}
+                <a href="/" class="btn btn-primary">Home</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

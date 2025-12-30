@@ -1,14 +1,17 @@
 {% extends "layout.html" %}
 
-{% block title %}{{ subject.name }} - Tareas{% endblock %}
+{% block title %}{{ subject.name }} - Tasks{% endblock %}
 
 {% block main %}
-    <a href="/" class="back-link">← Volver</a>
+    <a href="/" class="back-link">← Back</a>
     <h1>{{ subject.name }}</h1>
 
-    <button class="btn btn-primary mb-3" id="toggleButton" onclick="toggleForm()">
-        Add Task
-    </button>
+    <div class="text-center">
+        <button class="btn btn-primary mb-3" id="toggleButton" onclick="toggleForm()">
+            Add Task
+        </button>
+    </div>
+    
     <form action="/tasks" method="post" id="taskForm" style="display: none;">
         <div class="input-group mb-3">
             <input
@@ -45,23 +48,29 @@
         {% if tasks %}
             {% for task in tasks %}
                 <div class="card mb-3">
-                    <div class="card-body">
+                    <div class="card-body text-center">
                         <h5 class="card-title">{{ task.title }}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">
                             {% if task.due_date %}
-                                Fecha límite: {{ task.due_date }}
+                                Due date: {{ task.due_date }}
                             {% else %}
-                                Sin fecha límite
+                                No due date
                             {% endif %}
                         </h6>
                         <p class="card-text">{{ task.description }}</p>
                         <p class="mt-2">
                             {% if task.completed %}
-                                <span class="badge bg-success">Completada</span>
+                                <span class="badge bg-success">Completed</span>
+                                <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post" style="display:inline; margin-left:10px;" onsubmit="return confirm('Are you sure you want to delete this task?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
                             {% else %}
-                                <span class="badge bg-secondary">Pendiente</span>
+                                <span class="badge bg-secondary">Pending</span>
                                 <form action="{{ url_for('complete_task', task_id=task.id) }}" method="post" style="display:inline; margin-left:10px;">
-                                    <button type="submit" class="btn btn-sm btn-success">Marcar como completada</button>
+                                    <button type="submit" class="btn btn-sm btn-success">Mark as completed</button>
+                                </form>
+                                <form action="{{ url_for('delete_task', task_id=task.id) }}" method="post" style="display:inline; margin-left:10px;" onsubmit="return confirm('Are you sure you want to delete this task?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                 </form>
                             {% endif %}
                         </p>
@@ -70,7 +79,7 @@
             {% endfor %}
         {% else %}
             <div class="no-tasks">
-                <p>No hay tareas para esta materia.</p>
+                <p>There are no tasks for this subject.</p>
             </div>
         {% endif %}
     </div>

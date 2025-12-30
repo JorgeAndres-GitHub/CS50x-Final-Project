@@ -177,3 +177,23 @@ def complete_task(task_id):
         return f"Database error: {e}", 500
 
     return redirect(url_for("assignments", subject_id=task.subject_id))
+
+
+@app.route("/tasks/<int:task_id>/delete", methods=["POST"])
+@login_required
+def delete_task(task_id):
+    user_id = session["user_id"]
+
+    task = Task.query.filter_by(id=task_id, user_id=user_id).first()
+    if not task:
+        return "Task not found", 404
+
+    subject_id = task.subject_id
+    try:
+        db.session.delete(task)
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        return f"Database error: {e}", 500
+
+    return redirect(url_for("assignments", subject_id=subject_id))

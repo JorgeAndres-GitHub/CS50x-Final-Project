@@ -6,9 +6,11 @@ Home
 
 {% block main %}
     <h1 class="mb-4">My Subjects</h1>
-    <button class="btn btn-primary mb-3" id="toggleButton" onclick="toggleForm()">
-        Add Subject
-    </button>
+    <div class="text-center">
+        <button class="btn btn-success mb-3" id="toggleButton" onclick="toggleForm()">
+            Add Subject
+        </button>
+    </div>
     <form action="/subjects" method="post" id="subjectForm" style="display: none;">
         <div class="input-group mb-3">
             <input
@@ -24,12 +26,14 @@ Home
     {% if subjects %}
         <ul class="list-group">
             {% for subject in subjects %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ subject.name }}
-                    <a href="{{url_for('assignments', subject_id = subject.id)}}" class="btn btn-primary btn-sm">Check Assignments</a>
-                    <form action="{{ url_for('delete_subject', subject_id=subject.id) }}" method="post" style="margin: 0;">
-                        <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
-                    </form>
+                <li class="list-group-item d-flex align-items-center">
+                    <div>{{ subject.name }}</div>
+                    <div class="ms-auto d-flex gap-2 align-items-center">
+                        <a href="{{ url_for('assignments', subject_id=subject.id) }}" class="btn btn-primary btn-sm">Check Assignments</a>
+                        <form action="{{ url_for('delete_subject', subject_id=subject.id) }}" method="post" style="margin: 0;">
+                            <button class="btn btn-danger btn-sm" type="submit">Eliminar</button>
+                        </form>
+                    </div>
                 </li>
             {% endfor %}
         </ul>

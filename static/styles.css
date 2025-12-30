@@ -1,0 +1,35 @@
+
+/* Card hover animation: lift + subtle scale */
+.card {
+	transition: transform 200ms cubic-bezier(.2,.8,.2,1), box-shadow 200ms cubic-bezier(.2,.8,.2,1);
+	will-change: transform, box-shadow;
+	cursor: default; /* change to pointer if cards are clickable */
+}
+
+.card:hover {
+	transform: translateY(-8px) scale(1.02);
+	box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+.card:active {
+	transform: translateY(-4px) scale(1.01);
+}
+
+/* Improve keyboard accessibility */
+.card:focus-within,
+.card:focus {
+	outline: 2px solid rgba(13,110,253,0.25);
+	outline-offset: 2px;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+	.card,
+	.card:hover,
+	.card:active {
+		transition: none !important;
+		transform: none !important;
+		box-shadow: none !important;
+	}
+}
+
